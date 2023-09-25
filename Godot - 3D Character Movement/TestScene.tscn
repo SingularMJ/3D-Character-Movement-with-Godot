@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://d3kjlryklc16p"]
+
+[ext_resource type="PackedScene" uid="uid://s1adl4r4gfas" path="res://HexagonField.tscn" id="1_7tyho"]
+[ext_resource type="PackedScene" uid="uid://dn7w4mor07i1c" path="res://TestCharacter.tscn" id="2_ggy1e"]
+[ext_resource type="Script" path="res://CameraScript.gd" id="3_3fj78"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vge0a"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_wghjb"]
+sky_material = SubResource("ProceduralSkyMaterial_vge0a")
+
+[sub_resource type="Environment" id="Environment_6uh5i"]
+background_mode = 2
+sky = SubResource("Sky_wghjb")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_o85f4"]
+sky_top_color = Color(0.258824, 0.443137, 0.74902, 1)
+sky_horizon_color = Color(0.694118, 0.647059, 0.576471, 1)
+
+[sub_resource type="Sky" id="Sky_264jy"]
+sky_material = SubResource("ProceduralSkyMaterial_o85f4")
+
+[sub_resource type="Environment" id="Environment_732v4"]
+background_mode = 2
+sky = SubResource("Sky_264jy")
+glow_enabled = true
+volumetric_fog_density = 0.04
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_kuxo7"]
+dof_blur_far_distance = 46.34
+dof_blur_far_transition = 120.39
+dof_blur_near_distance = 0.24
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6uh5i")
+
+[node name="HexagonField" parent="." instance=ExtResource("1_7tyho")]
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_ggy1e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38511, 5.20162, -6.65253)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.320755, -0.615373, 0.720023, 0.250412, 0.788236, 0.562118, -0.91346, 0, 0.406928, 0, 24.1013, 0.0933266)
+shadow_enabled = true
+shadow_opacity = 0.47
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(0.997153, 0, 0, 0, 0.997153, 0, 0, 0, 0.997153, -2.38511, 5.20162, -6.65253)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" node_paths=PackedStringArray("CameraPivot", "Camera")]
+environment = SubResource("Environment_732v4")
+attributes = SubResource("CameraAttributesPractical_kuxo7")
+current = true
+script = ExtResource("3_3fj78")
+CameraPivot = NodePath("..")
+Camera = NodePath(".")

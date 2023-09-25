@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://s1adl4r4gfas"]
+
+[ext_resource type="PackedScene" uid="uid://b2ibbx3i866xo" path="res://Models/hexagonField.blend" id="1_5dcf4"]
+[ext_resource type="Texture2D" uid="uid://mwdo6d3wy86c" path="res://Textures/tileTexture.png" id="2_vdhr2"]
+[ext_resource type="Texture2D" uid="uid://tvta31u00mhq" path="res://Textures/TileNormal2.png" id="3_v27ug"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vko7x"]
+emission_enabled = true
+emission = Color(0, 0.737255, 0.811765, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sseyn"]
+albedo_color = Color(0.482353, 0.482353, 0.482353, 1)
+albedo_texture = ExtResource("2_vdhr2")
+metallic = 0.53
+roughness = 0.3
+normal_enabled = true
+normal_texture = ExtResource("3_v27ug")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bta4k"]
+albedo_color = Color(0.92549, 0.678431, 0, 1)
+albedo_texture = ExtResource("2_vdhr2")
+metallic = 0.59
+roughness = 0.42
+normal_enabled = true
+normal_texture = ExtResource("3_v27ug")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0x6ri"]
+albedo_color = Color(0, 0.862745, 0.894118, 1)
+emission_enabled = true
+emission = Color(0, 0.807843, 0.909804, 1)
+emission_energy_multiplier = 11.18
+detail_blend_mode = 3
+
+[node name="HexagonField" type="Node3D"]
+
+[node name="hexagonField" parent="." instance=ExtResource("1_5dcf4")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.0664514, 0, 0.141099)
+
+[node name="hexagonField" parent="hexagonField" index="0"]
+visible = false
+surface_material_override/2 = SubResource("StandardMaterial3D_vko7x")
+
+[node name="hexagonField-col" parent="hexagonField" index="1"]
+transform = Transform3D(-1.05898e-05, 65, -2.84124e-06, 0, -2.84124e-06, -65, -65, -1.05898e-05, 4.62897e-13, 0, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_sseyn")
+surface_material_override/1 = SubResource("StandardMaterial3D_bta4k")
+surface_material_override/2 = SubResource("StandardMaterial3D_0x6ri")
+
+[editable path="hexagonField"]
