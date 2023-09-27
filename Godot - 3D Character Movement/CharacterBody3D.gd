@@ -52,7 +52,6 @@ func _physics_process(delta):
 		get_tree().reload_current_scene()
 
 func movement(delta):
-	
 	GameEvents.emit_signal("playerPositionSignal", position)
 	
 	if is_on_floor():
@@ -63,11 +62,14 @@ func movement(delta):
 		else:
 			SPEED = walk_speed
 			max_jump_impulse = max_jump_walking
-	if Input.is_anything_pressed() == false:
-		dash = false
-	
+		# prevent consecutive jumps while holding jump button
+		if Input.is_action_pressed("jump") == false:
+			can_jump = true
+			jumped = false
+			jump_impulse = default_impulse
+		OffGroundTimer.stop()
 	# Add the gravity.
-	if not is_on_floor():
+	else:
 		if OffGroundTimer.is_stopped() and jumped == false and can_jump:
 			OffGroundTimer.start()
 		velocity.y -= gravity * weight * delta
@@ -75,13 +77,8 @@ func movement(delta):
 			can_jump = false
 		if jumped == false and OffGroundTimer.time_left > 0.0:
 			can_jump = true
-	else:
-		# prevent consecutive jumps while holding jump button
-		if Input.is_action_pressed("jump") == false:
-			can_jump = true
-			jumped = false
-			jump_impulse = default_impulse
-		OffGroundTimer.stop()
+	if Input.is_anything_pressed() == false:
+		dash = false
 		
 	# Handle Jump. the longer is pressed the higher is the impulse
 	if Input.is_action_pressed("jump") and can_jump:
